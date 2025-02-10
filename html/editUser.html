@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    {{ if . }}
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-4xl font-bold mb-6 text-center text-cyan-400">Update User</h2>
+
+        <form method="post" action="/updateUsers" class="space-y-4">
+            <input type="hidden" name="id" value="{{ .ID }}" />
+
+            <div>
+                <label class="block text-gray-600">Username</label>
+                <input type="text" name="username" value="{{ .Username }}" 
+                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+            </div>
+
+            <div>
+                <label class="block text-gray-600">First Name</label>
+                <input type="text" name="firstName" value="{{ .FirstName }}" 
+                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+            </div>
+
+            <div>
+                <label class="block text-gray-600">Last Name</label>
+                <input type="text" name="lastName" value="{{ .LastName }}" 
+                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-cyan-400 text-white py-2 rounded-lg hover:bg-white hover:text-cyan-400 hover:shadow-lg transition duration-300">
+                Update User
+            </button>
+        </form>
+    </div>
+    {{ else }}
+    <h1 class="text-center text-2xl text-red-600 font-bold">Data Not Found</h1>
+    {{ end }}
+
+</body>
+</html>

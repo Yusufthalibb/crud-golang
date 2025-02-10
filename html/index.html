@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Full Page Header -->
+    <div class="h-screen flex items-center justify-center bg-white shadow-md" data-aos="fade-up" data-aos-delay="600">
+        <div class="flex flex-col md:flex-row items-center max-w-6xl mx-auto p-10 space-y-8 md:space-y-0 md:space-x-16">
+            <!-- Text Section -->
+            <div class="text-center md:text-left flex-1" data-aos="fade-up">
+                <h1 class="text-6xl md:text-6xl leading-tight">
+                    <span class="text-black font-bold">CRUD PROGRAM WITH</span>
+                    <br>
+                    <span class="text-cyan-400 font-bold text-8xl md:text-8xl">GOLANG</span>
+                </h1>
+                <p class="text-gray-700 mt-6 text-xl md:text-2xl" data-aos="fade-up" data-aos-delay="600">
+                    Manage users efficiently with Go and MySQL.
+                </p>
+                <a href="#user-list" class="mt-8 inline-block px-8 py-4 bg-cyan-400 text-white text-xl rounded-lg shadow-cyan-400 hover:bg-white hover:text-cyan-400 hover:shadow-cyan-2xl transition" data-aos="fade-up" data-aos-delay="600">
+                    View Users Tabel
+                </a>
+            </div>
+            <!-- Image Section -->
+            <div class="flex-1 flex justify-center" data-aos="fade-up" data-aos-delay="600">
+                <img src="/assets/logo-golang.png" alt="Golang Logo" class="w-[600px] md:w-[600px] object-contain">
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- User List Section -->
+    <div id="user-list" class="w-full bg-gray-100 py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-6xl font-bold mb-6 text-cyan-400 text-center" data-aos="fade-up" data-aos-delay="600">
+                User List
+            </h2>
+            
+            <div class="flex justify-end mb-4" data-aos="fade-up" data-aos-delay="600">
+                <a href="/userForm" class="px-4 py-2 bg-cyan-400 text-white rounded-lg shadow-md hover:bg-white hover:text-cyan-400 hover:shadow-lg transition">
+                    Add Users
+                </a>
+            </div>
+    
+            <div class="overflow-x-auto" data-aos="fade-up" data-aos-delay="600">
+                <table class="w-full bg-white shadow-md rounded-lg">
+                    <thead class="bg-cyan-400 text-white">
+                        <tr>
+                            <th class="px-6 py-3">ID</th>
+                            <th class="px-6 py-3">Username</th>
+                            <th class="px-6 py-3">First Name</th>
+                            <th class="px-6 py-3">Last Name</th>
+                            <th class="px-6 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {{ if . }}
+                            {{ range . }}
+                            <tr class="" data-aos="fade-up" data-aos-delay="600">
+                                <td class="px-6 py-4 text-center">{{ .ID }}</td>
+                                <td class="px-6 py-4 text-center">{{ .Username }}</td>
+                                <td class="px-6 py-4 text-center">{{ .FirstName }}</td>
+                                <td class="px-6 py-4 text-center">{{ .LastName }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <a href="/editUsers?id={{.ID}}" class="text-green-500 transition-transform duration-100 transform hover:scale-150">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a> |
+                                    <a href="#" 
+                                    class="text-red-500 transition-transform duration-100 transform hover:scale-150 delete-btn" 
+                                    data-delete-url="/deleteUsers?id={{.ID}}">
+                                <i class="fa-solid fa-trash"></i>
+                                 </a>
+                                </td>                                
+                            </tr>   
+                            {{ end }}
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Delete Confirmation -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-96">
+        <div class="p-6">
+            <h2 class="text-xl font-bold text-cyan-400 text-center">Confirm Deletion</h2>
+            <p class="text-gray-700 text-center mt-4">Are you sure you want to delete this user?</p>
+        </div>
+        <div class="flex justify-between items-center px-6 pb-6 mt-4">
+            <button id="cancelBtn" 
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition">
+                Cancel
+            </button>
+            <a id="confirmDeleteBtn" 
+               href="#" 
+               class="bg-cyan-400 hover:bg-cyan-500 text-white py-2 px-4 rounded-lg transition">
+                Delete
+            </a>
+        </div>
+    </div>
+</div>
+<div class="bg-white mt-12 py-12">
+    <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-6xl font-bold mb-6 text-cyan-400 text-center" data-aos="fade-up" data-aos-delay="600">
+            User Statistics
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="600">
+            <!-- Total Users -->
+            <div class="bg-cyan-400 text-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h3 class="text-3xl font-bold mb-2">Total Users</h3>
+                <p class="text-5xl font-extrabold">102</p>
+                <p class="mt-2 text-gray-100">Users registered in the system.</p>
+            </div>
+            <!-- New Users This Week -->
+            <div class="bg-cyan-400 text-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h3 class="text-3xl font-bold mb-2">New Users (This Week)</h3>
+                <p class="text-5xl font-extrabold">12</p>
+                <p class="mt-2 text-gray-100">Users added in the last 7 days.</p>
+            </div>
+            <!-- Deleted Users -->
+            <div class="bg-cyan-400 text-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h3 class="text-3xl font-bold mb-2">Deleted Users</h3>
+                <p class="text-5xl font-extrabold">8</p>
+                <p class="mt-2 text-gray-100">Users removed from the system.</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+    duration: 1000, // Durasi animasi
+    easing: 'ease-in-out', // Jenis easing
+    once: true, // Hanya animasi sekali saat scroll
+    delay: 0, // Tambahan jeda untuk semua animasi
+});
+     // Get all delete buttons
+     const deleteButtons = document.querySelectorAll('.delete-btn');
+    const deleteModal = document.getElementById('deleteModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default link behavior
+            const deleteUrl = button.getAttribute('data-delete-url');
+            confirmDeleteBtn.setAttribute('href', deleteUrl); // Set the delete URL in the confirm button
+            deleteModal.classList.remove('hidden'); // Show the modal
+        });
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        deleteModal.classList.add('hidden'); // Hide the modal when cancel is clicked
+    });
+
+    // Hide the modal if clicked outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === deleteModal) {
+            deleteModal.classList.add('hidden');
+        }
+    });
+    </script>
+</body>
+</html>
